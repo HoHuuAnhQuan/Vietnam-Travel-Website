@@ -374,7 +374,7 @@ function Home() {
                                     <img
                                         src={tour.image}
                                         className="w-20 h-20 object-cover rounded-xl shadow-sm group-hover:scale-105 transition"
-                                        onError={(e) => (e.target.src = "https://via.placeholder.com/150")}
+                                        onError={(e) => (e.target.src = "https://placehold.co/150")}
                                     />
                                     <div className="flex-1 flex flex-col justify-center">
                                         <h4 className="font-bold text-gray-800 text-sm line-clamp-2 group-hover:text-primary transition">{tour.name}</h4>
@@ -411,7 +411,7 @@ function Home() {
                           <img
                             src={province.thumbnail}
                             className="w-16 h-16 object-cover rounded-xl shadow-sm group-hover:scale-105 transition"
-                            onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }}
+                            onError={(e) => { e.target.src = "https://placehold.co/150"; }}
                           />
                           <div>
                             <h4 className="font-bold text-gray-700 text-sm group-hover:text-primary transition font-heading">

@@ -8,6 +8,7 @@ import AdminPage from './pages/AdminPage';
 import ProfilePage from './pages/ProfilePage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Chatbot from './components/Chatbot';
 function App() {
   return (
     <>
@@ -20,6 +21,7 @@ function App() {
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/profile" element={<ProfilePage />} />
     </Routes>
+    <Chatbot />
     <ToastContainer 
         position="top-right"
         autoClose={3000}

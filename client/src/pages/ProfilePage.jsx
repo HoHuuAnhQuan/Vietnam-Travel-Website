@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Phone, Mail, Heart, Save, MapPin, LogOut, Trash2, Calendar, Clock, CheckCircle, XCircle, AlertCircle, ShoppingBag,ArrowLeft } from 'lucide-react';
-
+import { toast } from 'react-toastify';
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
@@ -48,10 +48,10 @@ const ProfilePage = () => {
 
     axios.put(`http://localhost:5000/api/bookings/cancel/${bookingId}`, { user_id: currentUser.user_id })
       .then(() => {
-        alert("Đã hủy tour thành công.");
+        toast.success("Đã hủy tour thành công.");
         fetchBookings(); // Load lại danh sách
       })
-      .catch(() => alert("Lỗi khi hủy tour."));
+      .catch(() => toast.error("Lỗi khi hủy tour."));
   };
 
   // Các hàm cũ (Update Profile, Remove Wishlist...)
@@ -66,7 +66,7 @@ const ProfilePage = () => {
     e.preventDefault();
     axios.put(`http://localhost:5000/api/users/${currentUser.user_id}`, formData)
       .then(() => {
-        alert("Cập nhật thành công!");
+        toast.success("Cập nhật thành công!");
         setIsEditing(false);
         setUser({ ...user, ...formData });
         const newUserStorage = { ...currentUser, full_name: formData.full_name };

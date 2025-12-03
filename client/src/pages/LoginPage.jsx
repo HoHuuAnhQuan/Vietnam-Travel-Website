@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Star, Mail, Lock, ArrowLeft } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const LoginPage = () => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
       
-      alert('Đăng nhập thành công!');
+      toast.success('Đăng nhập thành công!');
       navigate('/'); // Chuyển về trang chủ
       window.location.reload(); // Load lại để cập nhật Header
     } catch (err) {

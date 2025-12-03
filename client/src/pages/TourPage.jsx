@@ -3,6 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { MapPin, Clock, ArrowLeft, CheckCircle, User, Phone, Calendar } from 'lucide-react';
 import ReviewSection from '../components/ReviewSection';
+import { toast } from 'react-toastify';
+
 const TourPage = () => {
   const { id } = useParams();
   const navigate = useNavigate(); 
@@ -51,11 +53,11 @@ const TourPage = () => {
 
     try {
       await axios.post('http://localhost:5000/api/bookings', bookingData);
-      alert("🎉 Đặt tour thành công! Nhân viên sẽ liên hệ với bạn sớm.");
+      toast.success("🎉 Đặt tour thành công! Nhân viên sẽ liên hệ với bạn sớm.");
       navigate('/'); 
     } catch (err) {
       console.error(err);
-      alert("Lỗi khi đặt tour. Vui lòng thử lại.");
+      toast.error("Lỗi khi đặt tour. Vui lòng thử lại.");
     }
   };
 

@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { CheckCircle, XCircle, Clock, LogOut, LayoutDashboard, ArrowLeft} from 'lucide-react';
-
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 const AdminPage = () => {
     const navigate = useNavigate();
     const [bookings, setBookings] = useState([]);
@@ -11,7 +12,7 @@ const AdminPage = () => {
     // 1. Kiểm tra quyền Admin
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user || user.role !== 'admin') {
-        alert("Bạn không có quyền truy cập trang này!");
+        toast.error("Bạn không có quyền truy cập trang này!");
         navigate('/');
         return;
     }
@@ -28,14 +29,43 @@ const AdminPage = () => {
 
     // Hàm xử lý duyệt/hủy
     const handleStatusUpdate = (id, newStatus) => {
-    if(!window.confirm(`Bạn chắc chắn muốn ${newStatus === 'confirmed' ? 'DUYỆT' : 'HỦY'} đơn này?`)) return;
-
-    axios.put(`http://localhost:5000/api/bookings/${id}`, { status: newStatus })
-    .then(() => {
-        alert("Cập nhật thành công!");
-        fetchBookings(); // Tải lại danh sách
-    })
-    .catch(err => alert("Lỗi cập nhật"));
+    const isApprove = newStatus === 'confirmed';
+    const actionText = isApprove ? 'DUYỆT' : 'HỦY';
+    const actionColor = isApprove ? '#16a34a' : '#dc2626'; // Xanh lá hoặc Đỏ
+    // Hiện Popup hỏi xác nhận
+    Swal.fire({
+        title: `Xác nhận ${actionText}?`,
+        text: `Bạn có chắc chắn muốn ${actionText} đơn hàng #${id} không?`,
+        icon: isApprove ? 'question' : 'warning',
+        showCancelButton: true,
+        confirmButtonColor: actionColor,
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: `Đồng ý ${actionText}`,
+        cancelButtonText: 'Suy nghĩ lại',
+        background: '#fff',
+        customClass: {
+        popup: 'rounded-xl' 
+        }
+    }).then((result) => {
+        // Nếu người dùng bấm "Đồng ý"
+        if (result.isConfirmed) {
+        // Gọi API cập nhật
+        axios.put(`http://localhost:5000/api/bookings/${id}`, { status: newStatus })
+            .then(() => {
+            // Hiện thông báo thành công
+            Swal.fire({
+                title: 'Thành công!',
+                text: `Đã ${actionText} đơn hàng xong.`,
+                icon: 'success',
+                confirmButtonColor: '#b91c1c'
+            });
+            fetchBookings(); // Tải lại danh sách
+            })
+            .catch(err => {
+            Swal.fire('Lỗi!', 'Không thể cập nhật trạng thái.', 'error');
+            });
+        }
+    });
     };
 
     const handleLogout = () => {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Star, User, Send } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const ReviewSection = ({ tourId }) => {
     const [reviews, setReviews] = useState([]);
@@ -22,7 +23,7 @@ const ReviewSection = ({ tourId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!user) {
-        alert("Vui lòng đăng nhập để đánh giá!");
+        toast.error("Vui lòng đăng nhập để đánh giá!");
         return;
     }
 
@@ -33,12 +34,12 @@ const ReviewSection = ({ tourId }) => {
         comment
     })
     .then(() => {
-        alert("Cảm ơn bạn đã đánh giá!");
+        toast.success("Cảm ơn bạn đã đánh giá!");
         setComment("");
         setRating(5);
         fetchReviews(); // Load lại danh sách sau khi comment
     })
-    .catch(() => alert("Lỗi khi gửi đánh giá"));
+    .catch(() => toast.error("Lỗi khi gửi đánh giá"));
     };
 
     return (

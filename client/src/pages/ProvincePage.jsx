@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { MapPin, Utensils, BookOpen, Calendar, ArrowRight, Star, ArrowLeft, Clock ,Heart} from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const ProvincePage = () => {
    const { id } = useParams();
@@ -33,7 +34,7 @@ const ProvincePage = () => {
    if (!province) return <div className="min-h-screen flex justify-center items-center bg-[#FFFBE6] text-red-800 font-bold">Đang tải dữ liệu...</div>;
    const handleToggleWishlist = () => {
    if (!user) {
-      alert("Vui lòng đăng nhập để lưu yêu thích!");
+      toast.error("Vui lòng đăng nhập để lưu yêu thích!");
       return;
       }
       axios.post('http://localhost:5000/api/users/wishlist/toggle', {

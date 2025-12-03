@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom'; // <--- QUAN TRỌNG: Phải có useNavigate ở đây
+import { useParams, Link, useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 import { MapPin, Clock, ArrowLeft, CheckCircle, User, Phone, Calendar } from 'lucide-react';
 import ReviewSection from '../components/ReviewSection';
 const TourPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate(); // Khai báo hook chuyển trang
-  
+  const navigate = useNavigate(); 
   const [tour, setTour] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // Thêm state lỗi để dễ debug
-
-  // Form State
+  const [error, setError] = useState(null); 
   const [formData, setFormData] = useState({ fullName: '', phone: '', email: '', guests: 1, date: '' });
 
   useEffect(() => {

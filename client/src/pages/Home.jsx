@@ -12,8 +12,8 @@ import {
   Instagram,
   Search,
   ArrowRight,
-  Filter, // Thêm icon Filter
-  X // Thêm icon X để xóa tìm kiếm
+  Filter, 
+  X 
 } from "lucide-react";
 import { Link } from "react-router-dom"; 
 import { useNavigate } from 'react-router-dom';
@@ -25,30 +25,24 @@ function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState(null); 
-
-  // --- STATE MỚI CHO TÌM KIẾM & LỌC ---
-  const [searchTerm, setSearchTerm] = useState(""); // Từ khóa tìm kiếm
-  const [filterRegion, setFilterRegion] = useState("All"); // Lọc miền: All, Bac, Trung, Nam
-
+  const [searchTerm, setSearchTerm] = useState(""); m
+  const [filterRegion, setFilterRegion] = useState("All"); 
   // --- 1. CALL API & CHECK LOGIN ---
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/provinces")
       .then((res) => setProvinces(res.data))
       .catch((err) => console.error(err));
-
     const loggedUser = localStorage.getItem('user');
     if (loggedUser) {
       setUser(JSON.parse(loggedUser));
     }
-
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
   // --- 2. FETCH TOURS KHI CHỌN TỈNH ---
   useEffect(() => {
     if (selectedProvince) {
@@ -59,14 +53,12 @@ function Home() {
         .catch((err) => console.error(err));
     }
   }, [selectedProvince]);
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
     window.location.reload();
   };
-
   // --- 3. XỬ LÝ CLICK BẢN ĐỒ ---
   const handleProvinceClick = (rawName) => {
     const nameMapping = {
@@ -77,7 +69,6 @@ function Home() {
     const found = provinces.find(
       (p) => p.name.trim().toLowerCase() === provinceName.trim().toLowerCase()
     );
-
     if (found) {
       setSelectedProvince(found);
       document
@@ -85,7 +76,6 @@ function Home() {
         .scrollIntoView({ behavior: "smooth" });
     }
   };
-
   const handleBookNowHeader = () => {
     const user = localStorage.getItem('user');
     if (user) {
@@ -97,19 +87,17 @@ function Home() {
     }
   };
 
-  // --- LOGIC LỌC DANH SÁCH TỈNH (MỚI) ---
+  // --- LOGIC LỌC DANH SÁCH TỈNH  ---
   const filteredProvinces = provinces.filter((province) => {
     // 1. Lọc theo tên (Tìm kiếm)
     const matchesSearch = province.name.toLowerCase().includes(searchTerm.toLowerCase());
     // 2. Lọc theo miền
     const matchesRegion = filterRegion === "All" || province.region === filterRegion;
-    
     return matchesSearch && matchesRegion;
   });
-
   return (
     <div className="min-h-screen bg-[#FFFBE6] font-sans text-gray-800 overflow-x-hidden">
-      
+
       {/* ================= HEADER ================= */}
       <header className={`fixed top-0 left-0 right-0 z-50 bg-red-900 py-3 shadow-xl border-b border-yellow-500/30`}>
         <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
@@ -139,7 +127,7 @@ function Home() {
           <div className="flex items-center gap-4 md:gap-6">
             {user ? (
               <div className="flex items-center gap-4">
-                 <span className="text-yellow-100 font-bold hidden md:block text-sm">
+                <span className="text-yellow-100 font-bold hidden md:block text-sm">
                   {user.role === 'admin' && (
                       <span className="text-xs text-yellow-400 font-bold bg-red-800 px-2 py-0.5 rounded border border-yellow-500 mr-2">
                         Admin
@@ -148,18 +136,18 @@ function Home() {
                     <Link to="/profile" className="text-yellow-100 font-bold hover:text-white hover:underline">
                       Xin chào, {user.full_name}
                     </Link>
-                 </span>
-                 {user.role === 'admin' && (
-                   <Link to="/admin" className="bg-white text-red-900 p-2 rounded-full hover:bg-gray-200 transition" title="Trang quản trị">
+                  </span>
+                  {user.role === 'admin' && (
+                    <Link to="/admin" className="bg-white text-red-900 p-2 rounded-full hover:bg-gray-200 transition" title="Trang quản trị">
                       <Shield className="w-5 h-5" />
-                   </Link>
-                 )}
-                 <button 
+                    </Link>
+                  )}
+                  <button 
                     onClick={handleLogout} 
                     className="bg-red-800 border border-yellow-500 text-yellow-400 px-3 py-1 rounded-full text-xs font-bold hover:bg-red-700 transition"
-                 >
-                   Đăng xuất
-                 </button>
+                  >
+                    Đăng xuất
+                  </button>
               </div>
             ) : (
               <div className="hidden md:flex items-center gap-4 text-sm font-semibold text-white">
@@ -191,9 +179,9 @@ function Home() {
         </div>
         <div className="container mx-auto px-6 relative z-10 text-center mt-16">
           <div className="inline-block mb-4">
-             <span className="bg-red-600/90 text-yellow-100 text-sm font-bold px-4 py-1.5 rounded-full uppercase tracking-widest backdrop-blur-sm border border-red-400">
-               Hào khí Việt Nam
-             </span>
+              <span className="bg-red-600/90 text-yellow-100 text-sm font-bold px-4 py-1.5 rounded-full uppercase tracking-widest backdrop-blur-sm border border-red-400">
+                Hào khí Việt Nam
+              </span>
           </div>
           <h1 className="text-5xl md:text-8xl font-extrabold mb-6 leading-tight text-white drop-shadow-2xl">
             Việt Nam <br /> <span className="text-yellow-400">Diệu Kỳ</span>
@@ -251,7 +239,7 @@ function Home() {
               )}
             </div>
 
-            {/* --- THANH TÌM KIẾM & LỌC (CHỈ HIỆN KHI CHƯA CHỌN TỈNH) --- */}
+            {/* --- THANH TÌM KIẾM & LỌC --- */}
             {!selectedProvince && (
               <div className="p-4 bg-white border-b border-gray-100 space-y-3">
                 {/* Input tìm kiếm */}
@@ -270,7 +258,6 @@ function Home() {
                     </button>
                   )}
                 </div>
-
                 {/* Bộ lọc Miền */}
                 <div className="flex gap-2">
                   {[
@@ -298,7 +285,7 @@ function Home() {
             {/* Nội dung cuộn */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
               {selectedProvince ? (
-                // === KHI ĐÃ CHỌN 1 TỈNH (GIỮ NGUYÊN CODE CŨ) ===
+                // === KHI ĐÃ CHỌN 1 TỈNH  ===
                 <div className="animate-fade-in space-y-5">
                   <div className="aspect-video w-full rounded-xl overflow-hidden shadow-md border border-yellow-200">
                     <img
@@ -365,7 +352,7 @@ function Home() {
                   </div>
                 </div>
               ) : (
-                // === DANH SÁCH MẶC ĐỊNH (ĐÃ ÁP DỤNG LỌC) ===
+                // === DANH SÁCH MẶC ĐỊNH  ===
                 <div className="space-y-3">
                   {filteredProvinces.length > 0 ? (
                     filteredProvinces.map((province) => (
@@ -480,8 +467,8 @@ function Home() {
               Liên hệ
             </h4>
             <ul className="space-y-3 text-red-100/80 text-sm">
-              <li className="flex gap-3 items-center"><Phone className="w-4 h-4" /> 1900 1234</li>
-              <li className="flex gap-3 items-center"><Mail className="w-4 h-4" /> support@vietnamtravel.com</li>
+              <li className="flex gap-3 items-center"><Phone className="w-4 h-4" /> 0888827003</li>
+              <li className="flex gap-3 items-center"><Mail className="w-4 h-4" /> vietnamtravel776@gmail.com</li>
             </ul>
           </div>
           <div>

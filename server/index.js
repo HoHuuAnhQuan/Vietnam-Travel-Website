@@ -11,7 +11,6 @@ const userRoutes = require('./routes/userRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 app.use(cors());
 app.use(bodyParser.json());
-//Import routes
 const provinceRoutes = require('./routes/provinceRoutes');
 const authRoutes = require('./routes/authRoutes');
 //use routes

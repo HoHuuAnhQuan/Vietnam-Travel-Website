@@ -6,16 +6,11 @@ import { User, Phone, Mail, Heart, Save, MapPin, LogOut, Trash2, Calendar, Clock
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  
-  // State dữ liệu
   const [wishlist, setWishlist] = useState([]);
-  const [bookings, setBookings] = useState([]); // <--- State chứa đơn hàng
-  
-  // State giao diện
-  const [activeTab, setActiveTab] = useState('bookings'); // 'bookings' hoặc 'wishlist'
+  const [bookings, setBookings] = useState([]); 
+  const [activeTab, setActiveTab] = useState('bookings');'wishlist'
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ full_name: '', phone: '' });
-
   const currentUser = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
@@ -95,7 +90,7 @@ const ProfilePage = () => {
         <Link to="/" className="absolute top-6 left-6 bg-white/20 backdrop-blur-md text-red-600 p-3 rounded-full hover:bg-yellow-400 hover:text-red-900 transition border border-white/30">
            <ArrowLeft />
         </Link>
-        {/* CỘT TRÁI: THÔNG TIN (Giữ nguyên) */}
+        {/* CỘT TRÁI: THÔNG TIN */}
         <div className="md:col-span-1">
           <div className="bg-white p-6 rounded-2xl shadow-lg border border-red-100 sticky top-24">
             <div className="text-center mb-6">

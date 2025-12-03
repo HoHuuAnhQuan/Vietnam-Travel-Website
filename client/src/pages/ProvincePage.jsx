@@ -12,79 +12,75 @@ const ProvincePage = () => {
    const user = JSON.parse(localStorage.getItem('user'));
    useEffect(() => {
     window.scrollTo(0, 0); // Cuộn lên đầu trang khi mới vào
-    
-    // 1. Lấy thông tin Tỉnh
-    axios.get(`http://localhost:5000/api/provinces/${id}`)
-      .then(res => setProvince(res.data))
-      .catch(err => console.error(err));
-      
-    // 2. Lấy danh sách Tour của Tỉnh
-    axios.get(`http://localhost:5000/api/tours/province/${id}`)
-      .then(res => setTours(res.data))
-      .catch(err => console.error(err));
+      // 1. Lấy thông tin Tỉnh
+      axios.get(`http://localhost:5000/api/provinces/${id}`)
+         .then(res => setProvince(res.data))
+         .catch(err => console.error(err));
+      // 2. Lấy danh sách Tour của Tỉnh
+      axios.get(`http://localhost:5000/api/tours/province/${id}`)
+         .then(res => setTours(res.data))
+         .catch(err => console.error(err));
       // 3. Kiểm tra nếu người dùng đã thích Tỉnh này
       if (user && id) {
       axios.get(`http://localhost:5000/api/users/wishlist/check/${user.user_id}/${id}`)
-        .then(res => setIsLiked(res.data.isLiked))
-        .catch(err => console.error(err));
-    }
-    setLoading(false);
-    
-  }, [id]);
+         .then(res => setIsLiked(res.data.isLiked))
+         .catch(err => console.error(err));
+      }
+      setLoading(false);
+   
+   }, [id]);
   
-  if (!province) return <div className="min-h-screen flex justify-center items-center bg-[#FFFBE6] text-red-800 font-bold">Đang tải dữ liệu...</div>;
+   if (!province) return <div className="min-h-screen flex justify-center items-center bg-[#FFFBE6] text-red-800 font-bold">Đang tải dữ liệu...</div>;
    const handleToggleWishlist = () => {
-    if (!user) {
+   if (!user) {
       alert("Vui lòng đăng nhập để lưu yêu thích!");
       return;
-    }
-    
-    axios.post('http://localhost:5000/api/users/wishlist/toggle', {
+      }
+      axios.post('http://localhost:5000/api/users/wishlist/toggle', {
       user_id: user.user_id,
       province_id: province.province_id
-    })
-    .then(res => {
+      })
+      .then(res => {
       setIsLiked(!isLiked); // Đổi trạng thái tim
-      // alert(res.data.message); // Có thể hiện hoặc không
-    })
-    .catch(err => console.error(err));
-  };
-  return (
-    <div className="min-h-screen bg-[#FFFBE6] font-sans text-gray-800">
+      
+      })
+      .catch(err => console.error(err));
+   };
+   return (
+      <div className="min-h-screen bg-[#FFFBE6] font-sans text-gray-800">
       
       {/* --- HEADER ẢNH (HERO) --- */}
       <div className="relative h-[60vh]">
-        <img src={province.thumbnail} alt={province.name} className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-red-900 via-red-900/40 to-transparent"></div>
+         <img src={province.thumbnail} alt={province.name} className="w-full h-full object-cover" />
+         <div className="absolute inset-0 bg-gradient-to-t from-red-900 via-red-900/40 to-transparent"></div>
         
-        {/* Nút quay lại */}
-        <Link to="/" className="absolute top-6 left-6 bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-yellow-400 hover:text-red-900 transition border border-white/30">
-           <ArrowLeft />
-        </Link>
+         {/* Nút quay lại */}
+         <Link to="/" className="absolute top-6 left-6 bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-yellow-400 hover:text-red-900 transition border border-white/30">
+            <ArrowLeft />
+         </Link>
 
         {/* Tên Tỉnh */}
-        <div className="absolute bottom-0 left-0 w-full p-6 md:p-16 text-white">
-           <span className="bg-yellow-400 text-red-900 px-4 py-1 rounded-full font-bold uppercase tracking-wider text-sm mb-4 inline-block shadow-lg">
-             Điểm đến nổi bật
-           </span>
-           <h1 className="text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-lg tracking-tight">{province.name}</h1>
+         <div className="absolute bottom-0 left-0 w-full p-6 md:p-16 text-white">
+            <span className="bg-yellow-400 text-red-900 px-4 py-1 rounded-full font-bold uppercase tracking-wider text-sm mb-4 inline-block shadow-lg">
+               Điểm đến nổi bật
+            </span>
+            <h1 className="text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-lg tracking-tight">{province.name}</h1>
            {/* NÚT TIM */}
-   <button 
-     onClick={handleToggleWishlist}
-     className={`p-3 rounded-full shadow-lg transition transform hover:scale-110 ${isLiked ? 'bg-white text-red-600' : 'bg-black/30 text-white hover:bg-white hover:text-red-600'}`}
-     title={isLiked ? "Bỏ yêu thích" : "Thêm vào yêu thích"}
-   >
-     <Heart className={`w-8 h-8 ${isLiked ? 'fill-current' : ''}`} />
-   </button>
-           <div className="flex items-center gap-2 text-yellow-200 text-lg">
-              <MapPin className="w-5 h-5" /> 
-              {province.region === 'Bac' ? 'Miền Bắc' : province.region === 'Trung' ? 'Miền Trung' : 'Miền Nam'}
-           </div>
-        </div>
-      </div>
+         <button 
+            onClick={handleToggleWishlist}
+            className={`p-3 rounded-full shadow-lg transition transform hover:scale-110 ${isLiked ? 'bg-white text-red-600' : 'bg-black/30 text-white hover:bg-white hover:text-red-600'}`}
+            title={isLiked ? "Bỏ yêu thích" : "Thêm vào yêu thích"}
+         >
+            <Heart className={`w-8 h-8 ${isLiked ? 'fill-current' : ''}`} />
+         </button>
+            <div className="flex items-center gap-2 text-yellow-200 text-lg">
+               <MapPin className="w-5 h-5" /> 
+               {province.region === 'Bac' ? 'Miền Bắc' : province.region === 'Trung' ? 'Miền Trung' : 'Miền Nam'}
+            </div>
+         </div>
+         </div>
 
       <div className="container mx-auto px-6 py-16">
-        
         {/* --- PHẦN 1: GIỚI THIỆU CHUNG --- */}
         <div className="bg-white p-8 rounded-3xl shadow-xl border-t-4 border-red-600 mb-12">
            <h2 className="text-3xl font-bold text-red-800 mb-6 flex items-center gap-3">
@@ -94,7 +90,6 @@ const ProvincePage = () => {
              {province.description}
            </p>
         </div>
-
         {/* --- PHẦN 2: VĂN HÓA & ẨM THỰC (2 Cột) --- */}
         <div className="grid md:grid-cols-2 gap-10 mb-20">
            {/* Cột Văn hóa */}

@@ -5,7 +5,17 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['"Open Sans"', 'sans-serif'],
+        heading: ['"Montserrat"', 'sans-serif'],
+      },
+      colors: {
+        primary: '#991B1B',   // Đỏ Ruby đậm
+        secondary: '#D97706', // Vàng Gold
+        cream: '#FFFBF5',     // Nền kem nhẹ
+      }
+    },
   },
   plugins: [],
 }

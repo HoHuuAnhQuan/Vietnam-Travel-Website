@@ -13,24 +13,24 @@ const RegisterPage = () => {
     e.preventDefault();
     try {
       await axios.post('http://localhost:5000/api/auth/register', formData);
-      toast.success('Đăng ký thành công! Vui lòng đăng nhập.');
+      toast.success('Registration successful! Please log in.');
       navigate('/login');
     } catch (err) {
-      setError(err.response?.data?.message || 'Đăng ký thất bại');
+      setError(err.response?.data?.message || 'Registration failed');
     }
   };
 
   return (
     <div className="min-h-screen bg-[#FFFBE6] flex items-center justify-center p-6 relative">
-      <Link to="/" className="absolute top-6 left-6 text-red-800 hover:underline flex items-center gap-2 font-bold"><ArrowLeft/> Về trang chủ</Link>
+      <Link to="/" className="absolute top-6 left-6 text-red-800 hover:underline flex items-center gap-2 font-bold"><ArrowLeft/> Back to homepage</Link>
       
       <div className="bg-white p-8 md:p-10 rounded-3xl shadow-2xl w-full max-w-md border border-red-100">
         <div className="text-center mb-8">
            <div className="inline-block p-3 bg-red-50 rounded-full mb-4">
               <Star className="w-10 h-10 text-yellow-500 fill-current" />
            </div>
-           <h2 className="text-3xl font-extrabold text-red-900">Tạo tài khoản mới</h2>
-           <p className="text-gray-500 mt-2">Bắt đầu hành trình của bạn</p>
+           <h2 className="text-3xl font-extrabold text-red-900">Create a new account</h2>
+           <p className="text-gray-500 mt-2">Start your journey</p>
         </div>
 
         {error && <div className="bg-red-100 text-red-700 p-3 rounded-lg mb-4 text-center text-sm">{error}</div>}
@@ -61,7 +61,7 @@ const RegisterPage = () => {
         </form>
 
         <p className="text-center mt-6 text-gray-600">
-          Đã có tài khoản? <Link to="/login" className="text-red-600 font-bold hover:underline">Đăng nhập</Link>
+          Already have an account? <Link to="/login" className="text-red-600 font-bold hover:underline">Log in</Link>
         </p>
       </div>
     </div>

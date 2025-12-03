@@ -23,7 +23,7 @@ const ReviewSection = ({ tourId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!user) {
-        toast.error("Vui lòng đăng nhập để đánh giá!");
+        toast.error("Please log in to leave a review!");
         return;
     }
 
@@ -34,24 +34,24 @@ const ReviewSection = ({ tourId }) => {
         comment
     })
     .then(() => {
-        toast.success("Cảm ơn bạn đã đánh giá!");
+        toast.success("Thank you for your review!");
         setComment("");
         setRating(5);
         fetchReviews(); // Load lại danh sách sau khi comment
     })
-    .catch(() => toast.error("Lỗi khi gửi đánh giá"));
+    .catch(() => toast.error("Error submitting review"));
     };
 
     return (
     <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mt-10">
     <h2 className="text-2xl font-bold text-red-800 mb-6 flex items-center gap-2">
         <Star className="w-6 h-6 fill-yellow-400 text-yellow-400" /> 
-        Đánh giá ({reviews.length})
+        Review ({reviews.length})
     </h2>
 
       {/* --- FORM VIẾT ĐÁNH GIÁ --- */}
         <div className="mb-10 bg-yellow-50 p-6 rounded-xl border border-yellow-100">
-        <h3 className="font-bold text-gray-800 mb-4">Viết cảm nhận của bạn</h3>
+        <h3 className="font-bold text-gray-800 mb-4">Write your reflection</h3>
         <form onSubmit={handleSubmit}>
           {/* Chọn sao */}
         <div className="flex gap-2 mb-4">
@@ -73,14 +73,14 @@ const ReviewSection = ({ tourId }) => {
             required
             className="w-full p-4 border border-gray-200 rounded-lg outline-none focus:border-red-500 bg-white"
             rows="3"
-            placeholder="Bạn thấy tour này thế nào?"
+            placeholder="What do you think of this tour??"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
         ></textarea>
 
         <div className="text-right mt-3">
             <button type="submit" className="bg-red-600 text-white px-6 py-2 rounded-full font-bold hover:bg-red-700 transition flex items-center gap-2 ml-auto">
-            <Send size={16} /> Gửi đánh giá
+            <Send size={16} />Submit review
             </button>
         </div>
         </form>
@@ -111,7 +111,7 @@ const ReviewSection = ({ tourId }) => {
             </div>
             ))
         ) : (
-            <p className="text-gray-400 text-center italic">Chưa có đánh giá nào. Hãy là người đầu tiên!</p>
+            <p className="text-gray-400 text-center italic">No reviews yet. Be the first!</p>
         )}
         </div>
     </div>

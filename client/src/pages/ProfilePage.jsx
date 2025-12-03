@@ -44,20 +44,20 @@ const ProfilePage = () => {
 
   // --- HÀM HỦY ĐƠN ---
   const handleCancelBooking = (bookingId) => {
-    if(!window.confirm("Bạn chắc chắn muốn hủy tour này?")) return;
+    if(!window.confirm("Are you sure you want to cancel this tour?")) return;
 
     axios.put(`http://localhost:5000/api/bookings/cancel/${bookingId}`, { user_id: currentUser.user_id })
       .then(() => {
-        toast.success("Đã hủy tour thành công.");
+        toast.success("The tour has been successfully canceled.");
         fetchBookings(); // Load lại danh sách
       })
-      .catch(() => toast.error("Lỗi khi hủy tour."));
+      .catch(() => toast.error("Error when cancelling the tour."));
   };
 
   // Các hàm cũ (Update Profile, Remove Wishlist...)
   const handleRemoveWishlist = (e, provinceId) => {
     e.preventDefault();
-    if(!window.confirm("Xóa khỏi yêu thích?")) return;
+    if(!window.confirm("Remove from favorites?")) return;
     axios.post('http://localhost:5000/api/users/wishlist/toggle', { user_id: currentUser.user_id, province_id: provinceId })
     .then(() => fetchWishlist());
   };
@@ -66,7 +66,7 @@ const ProfilePage = () => {
     e.preventDefault();
     axios.put(`http://localhost:5000/api/users/${currentUser.user_id}`, formData)
       .then(() => {
-        toast.success("Cập nhật thành công!");
+        toast.success("Updated successfully!");
         setIsEditing(false);
         setUser({ ...user, ...formData });
         const newUserStorage = { ...currentUser, full_name: formData.full_name };
@@ -81,7 +81,7 @@ const ProfilePage = () => {
     navigate('/login');
   };
 
-  if (!user) return <div className="p-10 text-center">Đang tải...</div>;
+  if (!user) return <div className="p-10 text-center">Loading...</div>;
 
   return (
     <div className="min-h-screen bg-[#FFFBE6] font-sans text-gray-800 pt-24 pb-10">
@@ -103,14 +103,14 @@ const ProfilePage = () => {
 
             <form onSubmit={handleUpdateProfile} className="space-y-4">
               <div>
-                <label className="text-xs font-bold text-gray-500 uppercase">Họ và tên</label>
+                <label className="text-xs font-bold text-gray-500 uppercase">Full name</label>
                 <div className="flex items-center border border-gray-200 rounded-lg px-3 py-2 mt-1 bg-gray-50">
                   <User className="w-4 h-4 text-gray-400 mr-2" />
                   <input disabled={!isEditing} type="text" className="w-full bg-transparent outline-none text-sm disabled:text-gray-500" value={formData.full_name} onChange={e => setFormData({...formData, full_name: e.target.value})} />
                 </div>
               </div>
               <div>
-                <label className="text-xs font-bold text-gray-500 uppercase">Số điện thoại</label>
+                <label className="text-xs font-bold text-gray-500 uppercase">Phone number</label>
                 <div className="flex items-center border border-gray-200 rounded-lg px-3 py-2 mt-1 bg-gray-50">
                   <Phone className="w-4 h-4 text-gray-400 mr-2" />
                   <input disabled={!isEditing} type="text" className="w-full bg-transparent outline-none text-sm disabled:text-gray-500" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
@@ -126,14 +126,14 @@ const ProfilePage = () => {
 
               {isEditing ? (
                 <div className="flex gap-2 pt-2">
-                  <button type="submit" className="flex-1 bg-red-600 text-white py-2 rounded-lg text-sm font-bold hover:bg-red-700 flex items-center justify-center gap-2"><Save size={16}/> Lưu</button>
-                  <button type="button" onClick={() => setIsEditing(false)} className="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg text-sm font-bold hover:bg-gray-300">Hủy</button>
+                  <button type="submit" className="flex-1 bg-red-600 text-white py-2 rounded-lg text-sm font-bold hover:bg-red-700 flex items-center justify-center gap-2"><Save size={16}/> Save</button>
+                  <button type="button" onClick={() => setIsEditing(false)} className="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg text-sm font-bold hover:bg-gray-300">Cancel</button>
                 </div>
               ) : (
-                <button type="button" onClick={() => setIsEditing(true)} className="w-full bg-yellow-400 text-red-900 py-2 rounded-lg text-sm font-bold hover:bg-yellow-300 transition shadow-sm border border-yellow-500">Chỉnh sửa hồ sơ</button>
+                <button type="button" onClick={() => setIsEditing(true)} className="w-full bg-yellow-400 text-red-900 py-2 rounded-lg text-sm font-bold hover:bg-yellow-300 transition shadow-sm border border-yellow-500">Edit profile</button>
               )}
             </form>
-            <button onClick={handleLogout} className="w-full mt-6 flex items-center justify-center gap-2 text-red-600 py-2 hover:bg-red-50 rounded-lg transition text-sm font-medium"><LogOut size={16} /> Đăng xuất</button>
+            <button onClick={handleLogout} className="w-full mt-6 flex items-center justify-center gap-2 text-red-600 py-2 hover:bg-red-50 rounded-lg transition text-sm font-medium"><LogOut size={16} /> Log out</button>
           </div>
         </div>
         {/* CỘT PHẢI: TABS (ĐƠN HÀNG & WISHLIST) */}
@@ -145,13 +145,13 @@ const ProfilePage = () => {
               onClick={() => setActiveTab('bookings')}
               className={`flex items-center gap-2 px-4 py-2 font-bold text-lg transition ${activeTab === 'bookings' ? 'text-red-600 border-b-4 border-red-600' : 'text-gray-400 hover:text-red-400'}`}
             >
-              <ShoppingBag size={20} /> Lịch sử đặt tour
+              <ShoppingBag size={20} /> Booking history
             </button>
             <button 
               onClick={() => setActiveTab('wishlist')}
               className={`flex items-center gap-2 px-4 py-2 font-bold text-lg transition ${activeTab === 'wishlist' ? 'text-red-600 border-b-4 border-red-600' : 'text-gray-400 hover:text-red-400'}`}
             >
-              <Heart size={20} /> Yêu thích
+              <Heart size={20} /> Favorite
             </button>
           </div>
 
@@ -167,14 +167,14 @@ const ProfilePage = () => {
                       <div className="flex justify-between items-start">
                          <h3 className="font-bold text-lg text-gray-800 line-clamp-1">{item.tour_name}</h3>
                          {/* Badge Trạng thái */}
-                         {item.status === 'pending' && <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-bold flex items-center gap-1"><Clock size={12}/> Chờ duyệt</span>}
-                         {item.status === 'confirmed' && <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold flex items-center gap-1"><CheckCircle size={12}/> Đã duyệt</span>}
-                         {item.status === 'cancelled' && <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold flex items-center gap-1"><XCircle size={12}/> Đã hủy</span>}
+                         {item.status === 'pending' && <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-bold flex items-center gap-1"><Clock size={12}/> Pending Approval</span>}
+                         {item.status === 'confirmed' && <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold flex items-center gap-1"><CheckCircle size={12}/> Approved</span>}
+                         {item.status === 'cancelled' && <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold flex items-center gap-1"><XCircle size={12}/> Cancelled</span>}
                       </div>
 
                       <div className="flex gap-4 text-sm text-gray-500 mt-2">
                          <span className="flex items-center gap-1"><Calendar size={14}/> {new Date(item.start_date).toLocaleDateString('vi-VN')}</span>
-                         <span className="flex items-center gap-1"><User size={14}/> {item.num_people} khách</span>
+                         <span className="flex items-center gap-1"><User size={14}/> {item.num_people} guest</span>
                       </div>
 
                       <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100">
@@ -188,7 +188,7 @@ const ProfilePage = () => {
                              onClick={() => handleCancelBooking(item.booking_id)}
                              className="text-gray-400 text-xs hover:text-red-600 font-bold border border-gray-200 px-3 py-1 rounded hover:bg-red-50 transition"
                            >
-                             Hủy đơn
+                             Cancel order
                            </button>
                          )}
                       </div>
@@ -196,7 +196,7 @@ const ProfilePage = () => {
                   </div>
                 ))
               ) : (
-                <div className="text-center py-10 text-gray-400">Bạn chưa đặt tour nào.</div>
+                <div className="text-center py-10 text-gray-400">You haven't booked any tours.</div>
               )}
             </div>
           )}
@@ -215,7 +215,7 @@ const ProfilePage = () => {
                   </Link>
                   <button onClick={(e) => handleRemoveWishlist(e, p.province_id)} className="absolute top-2 right-2 p-2 bg-gray-100 rounded-full text-gray-400 hover:text-red-600 transition z-10"><Trash2 size={16} /></button>
                 </div>
-              )) : <div className="text-center py-10 text-gray-400 col-span-2">Danh sách trống.</div>}
+              )) : <div className="text-center py-10 text-gray-400 col-span-2">The list is empty.</div>}
             </div>
           )}
 

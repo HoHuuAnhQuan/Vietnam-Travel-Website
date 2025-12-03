@@ -30,18 +30,18 @@ const AdminPage = () => {
     // Hàm xử lý duyệt/hủy
     const handleStatusUpdate = (id, newStatus) => {
     const isApprove = newStatus === 'confirmed';
-    const actionText = isApprove ? 'DUYỆT' : 'HỦY';
+    const actionText = isApprove ? 'Approve' : 'Cancel';
     const actionColor = isApprove ? '#16a34a' : '#dc2626'; // Xanh lá hoặc Đỏ
     // Hiện Popup hỏi xác nhận
     Swal.fire({
-        title: `Xác nhận ${actionText}?`,
-        text: `Bạn có chắc chắn muốn ${actionText} đơn hàng #${id} không?`,
+        title: `Confirm ${actionText}?`,
+        text: `Are you sure you want to ${actionText} order #${id} ?`,
         icon: isApprove ? 'question' : 'warning',
         showCancelButton: true,
         confirmButtonColor: actionColor,
         cancelButtonColor: '#6b7280',
-        confirmButtonText: `Đồng ý ${actionText}`,
-        cancelButtonText: 'Suy nghĩ lại',
+        confirmButtonText: `Agree ${actionText}`,
+        cancelButtonText: 'Think again',
         background: '#fff',
         customClass: {
         popup: 'rounded-xl' 
@@ -54,15 +54,15 @@ const AdminPage = () => {
             .then(() => {
             // Hiện thông báo thành công
             Swal.fire({
-                title: 'Thành công!',
-                text: `Đã ${actionText} đơn hàng xong.`,
+                title: 'Success!',
+                text: `The order has been ${actionText} successfully.`,
                 icon: 'success',
                 confirmButtonColor: '#b91c1c'
             });
             fetchBookings(); // Tải lại danh sách
             })
             .catch(err => {
-            Swal.fire('Lỗi!', 'Không thể cập nhật trạng thái.', 'error');
+            Swal.fire('Error!!', 'Unable to update status.', 'error');
             });
         }
     });
@@ -87,24 +87,24 @@ const AdminPage = () => {
             <LayoutDashboard /> Admin Dashboard
         </div>
         <button onClick={handleLogout} className="flex items-center gap-1 text-sm bg-red-800 px-3 py-1 rounded hover:bg-red-700">
-            <LogOut size={16} /> Đăng xuất
+            <LogOut size={16} /> Logout
         </button>
         </div>
         
         <div className="container mx-auto p-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Quản lý Đơn đặt tour</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">Tour Order Management</h2>
         
         <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
             <table className="w-full text-left border-collapse">
             <thead className="bg-gray-50 text-gray-600 uppercase text-xs font-bold">
                 <tr>
-                    <th className="p-4 border-b">Mã đơn</th>
-                    <th className="p-4 border-b">Khách hàng</th>
-                    <th className="p-4 border-b">Tour đăng ký</th>
-                    <th className="p-4 border-b">Ngày đi</th>
-                    <th className="p-4 border-b">Tổng tiền</th>
-                    <th className="p-4 border-b text-center">Trạng thái</th>
-                    <th className="p-4 border-b text-center">Hành động</th>
+                    <th className="p-4 border-b">Order Code</th>
+                    <th className="p-4 border-b">Customer</th>
+                    <th className="p-4 border-b">Registered Tour</th>
+                    <th className="p-4 border-b">Start Date</th>
+                    <th className="p-4 border-b">Total Amount</th>
+                    <th className="p-4 border-b text-center">Status</th>
+                    <th className="p-4 border-b text-center">Action</th>
                 </tr>
             </thead>
             <tbody className="text-sm text-gray-700">
@@ -122,34 +122,34 @@ const AdminPage = () => {
                     <div className="text-xs font-normal text-gray-500">({item.num_people} khách)</div>
                     </td>
                     <td className="p-4 text-center">
-                    {item.status === 'pending' && <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-bold flex items-center justify-center gap-1"><Clock size={12}/> Chờ duyệt</span>}
-                    {item.status === 'confirmed' && <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold flex items-center justify-center gap-1"><CheckCircle size={12}/> Đã duyệt</span>}
-                    {item.status === 'cancelled' && <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold flex items-center justify-center gap-1"><XCircle size={12}/> Đã hủy</span>}
+                    {item.status === 'pending' && <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-bold flex items-center justify-center gap-1"><Clock size={12}/> Pending approval</span>}
+                    {item.status === 'confirmed' && <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold flex items-center justify-center gap-1"><CheckCircle size={12}/> Approved</span>}
+                    {item.status === 'cancelled' && <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold flex items-center justify-center gap-1"><XCircle size={12}/> Cancelled</span>}
                     </td>
                     <td className="p-4 flex justify-center gap-2">
                     {item.status === 'pending' && (
                         <>
                         <button 
                             onClick={() => handleStatusUpdate(item.booking_id, 'confirmed')}
-                            className="bg-green-600 text-white p-2 rounded hover:bg-green-700 transition" title="Duyệt đơn"
+                            className="bg-green-600 text-white p-2 rounded hover:bg-green-700 transition" title="Approve order"
                         >
                             <CheckCircle size={16} />
                         </button>
                         <button 
                             onClick={() => handleStatusUpdate(item.booking_id, 'cancelled')}
-                            className="bg-red-600 text-white p-2 rounded hover:bg-red-700 transition" title="Hủy đơn"
+                            className="bg-red-600 text-white p-2 rounded hover:bg-red-700 transition" title="Cancel order"
                         >
                             <XCircle size={16} />
                         </button>
                         </>
                     )}
-                    {item.status !== 'pending' && <span className="text-gray-400 text-xs italic">Đã xử lý</span>}
+                    {item.status !== 'pending' && <span className="text-gray-400 text-xs italic">Processed</span>}
                     </td>
                 </tr>
                 ))}
             </tbody>
             </table>
-            {bookings.length === 0 && <div className="p-8 text-center text-gray-500">Chưa có đơn hàng nào.</div>}
+            {bookings.length === 0 && <div className="p-8 text-center text-gray-500">No orders yet.</div>}
         </div>
         </div>
     </div>

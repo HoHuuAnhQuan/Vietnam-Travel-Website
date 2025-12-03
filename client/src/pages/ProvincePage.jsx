@@ -31,10 +31,10 @@ const ProvincePage = () => {
    
    }, [id]);
   
-   if (!province) return <div className="min-h-screen flex justify-center items-center bg-[#FFFBE6] text-red-800 font-bold">Đang tải dữ liệu...</div>;
+   if (!province) return <div className="min-h-screen flex justify-center items-center bg-[#FFFBE6] text-red-800 font-bold">Loading...</div>;
    const handleToggleWishlist = () => {
    if (!user) {
-      toast.error("Vui lòng đăng nhập để lưu yêu thích!");
+      toast.error("Please log in to save favorites!");
       return;
       }
       axios.post('http://localhost:5000/api/users/wishlist/toggle', {
@@ -63,7 +63,7 @@ const ProvincePage = () => {
         {/* Tên Tỉnh */}
          <div className="absolute bottom-0 left-0 w-full p-6 md:p-16 text-white">
             <span className="bg-yellow-400 text-red-900 px-4 py-1 rounded-full font-bold uppercase tracking-wider text-sm mb-4 inline-block shadow-lg">
-               Điểm đến nổi bật
+               Featured destination
             </span>
             <h1 className="text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-lg tracking-tight">{province.name}</h1>
            {/* NÚT TIM */}
@@ -76,7 +76,7 @@ const ProvincePage = () => {
          </button>
             <div className="flex items-center gap-2 text-yellow-200 text-lg">
                <MapPin className="w-5 h-5" /> 
-               {province.region === 'Bac' ? 'Miền Bắc' : province.region === 'Trung' ? 'Miền Trung' : 'Miền Nam'}
+               {province.region === 'Bac' ? 'North' : province.region === 'Trung' ? 'Central' : 'South'}
             </div>
          </div>
          </div>
@@ -85,7 +85,7 @@ const ProvincePage = () => {
         {/* --- PHẦN 1: GIỚI THIỆU CHUNG --- */}
         <div className="bg-white p-8 rounded-3xl shadow-xl border-t-4 border-red-600 mb-12">
            <h2 className="text-3xl font-bold text-red-800 mb-6 flex items-center gap-3">
-             <Star className="w-8 h-8 text-yellow-500 fill-current" /> Tổng quan
+             <Star className="w-8 h-8 text-yellow-500 fill-current" /> Overview
            </h2>
            <p className="text-gray-700 text-lg leading-relaxed text-justify">
              {province.description}
@@ -99,10 +99,10 @@ const ProvincePage = () => {
                  <div className="bg-red-600 p-3 rounded-full text-white shadow-md">
                     <BookOpen className="w-6 h-6" />
                  </div>
-                 <h3 className="text-2xl font-bold text-red-900">Văn hóa & Con người</h3>
+                 <h3 className="text-2xl font-bold text-red-900">Culture & People</h3>
               </div>
               <p className="text-gray-700 text-base leading-relaxed text-justify">
-                 {province.culture || "Thông tin văn hóa đang được cập nhật..."}
+                 {province.culture || "Cultural information is being updated..."}
               </p>
            </div>
 
@@ -112,17 +112,17 @@ const ProvincePage = () => {
                  <div className="bg-yellow-500 p-3 rounded-full text-white shadow-md">
                     <Utensils className="w-6 h-6" />
                  </div>
-                 <h3 className="text-2xl font-bold text-yellow-800">Ẩm thực đặc sắc</h3>
+                 <h3 className="text-2xl font-bold text-yellow-800">Distinctive cuisine</h3>
               </div>
               <p className="text-gray-700 text-base leading-relaxed text-justify">
-                 {province.food || "Thông tin ẩm thực đang được cập nhật..."}
+                 {province.food || "Culinary information is being updated..."}
               </p>
            </div>
         </div>
 
         {/* --- PHẦN 3: DANH SÁCH TOUR --- */}
         <div className="mb-10 flex items-center gap-4 border-b border-red-200 pb-4">
-           <h2 className="text-4xl font-bold text-red-800">Các Tour tại {province.name}</h2>
+           <h2 className="text-4xl font-bold text-red-800">Tours at {province.name}</h2>
         </div>
 
         {tours.length > 0 ? (
@@ -146,7 +146,7 @@ const ProvincePage = () => {
                       
                       <div className="mt-auto pt-4 border-t border-gray-100 flex justify-between items-end">
                          <div>
-                            <p className="text-xs text-gray-400">Giá tham khảo</p>
+                            <p className="text-xs text-gray-400">Reference price</p>
                             <p className="text-2xl font-extrabold text-red-600">
                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tour.price)}
                             </p>
@@ -162,8 +162,8 @@ const ProvincePage = () => {
           </div>
         ) : (
           <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-200">
-             <p className="text-gray-400 text-xl">Hiện chưa có tour nào tại địa điểm này.</p>
-             <Link to="/" className="mt-4 inline-block text-red-600 font-bold hover:underline">Quay về trang chủ</Link>
+             <p className="text-gray-400 text-xl">There are currently no tours at this location.</p>
+             <Link to="/" className="mt-4 inline-block text-red-600 font-bold hover:underline">Back to homepage</Link>
           </div>
         )}
 

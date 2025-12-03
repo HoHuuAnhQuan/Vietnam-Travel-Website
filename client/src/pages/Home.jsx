@@ -25,7 +25,7 @@ function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState(null); 
-  const [searchTerm, setSearchTerm] = useState(""); m
+  const [searchTerm, setSearchTerm] = useState(""); 
   const [filterRegion, setFilterRegion] = useState("All"); 
   // --- 1. CALL API & CHECK LOGIN ---
   useEffect(() => {

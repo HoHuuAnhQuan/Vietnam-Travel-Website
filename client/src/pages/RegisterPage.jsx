@@ -13,8 +13,8 @@ const RegisterPage = () => {
     e.preventDefault();
     try {
       await axios.post('http://localhost:5000/api/auth/register', formData);
-      toast.success('Registration successful! Please log in.');
-      navigate('/login');
+      toast.success("Đã gửi mã OTP! Vui lòng kiểm tra email.");
+      navigate('/verify', { state: { email: formData.email } });
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
     }

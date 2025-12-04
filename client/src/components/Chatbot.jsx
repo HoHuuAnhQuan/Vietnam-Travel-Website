@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 
-const Chatbot = () => {
+const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false); // Trạng thái mở/đóng
   const [messages, setMessages] = useState([
     { text: "Xin chào! Tôi là VinaBot 🤖. Bạn cần tư vấn du lịch đi đâu hôm nay?", sender: "bot" }
@@ -122,4 +122,4 @@ const Chatbot = () => {
   );
 };
 
-export default Chatbot;
+export default ChatBot;

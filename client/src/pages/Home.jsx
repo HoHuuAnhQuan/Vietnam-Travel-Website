@@ -104,7 +104,7 @@ function Home() {
     if (user) {
       document.getElementById('map-container').scrollIntoView({ behavior: 'smooth' });
     } else {
-      if (window.confirm("Bạn cần đăng nhập để sử dụng tính năng đặt tour. Đi đến trang đăng nhập ngay?")) {
+      if (window.confirm("You need to log in to use the tour booking feature. Go to the login page now.?")) {
         navigate('/login');
       }
     }
@@ -143,18 +143,26 @@ function Home() {
             </span>
           </div>
 
-          {/* Menu */}
           <nav className="hidden md:flex gap-10">
-            {["Home Page", "Map", "Tour Hot", "Contact"].map((item) => (
-              <a
-                key={item}
-                href="#"
+            <Link to="/" className="font-semibold text-lg text-white/90 hover:text-yellow-300 transition relative group">
+                Home Page
+            </Link>
+            
+            <button 
+                onClick={() => document.getElementById("map-container").scrollIntoView({ behavior: "smooth" })}
                 className="font-semibold text-lg text-white/90 hover:text-yellow-300 transition relative group"
-              >
-                {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all group-hover:w-full"></span>
-              </a>
-            ))}
+            >
+                Map
+            </button>
+
+            {/* 👇 LINK NÀY DẪN ĐẾN TRANG TOUR HOT 👇 */}
+            <Link to="/tours" className="font-semibold text-lg text-white/90 hover:text-yellow-300 transition relative group">
+                Tour Hot
+            </Link>
+
+            <a href="#" className="font-semibold text-lg text-white/90 hover:text-yellow-300 transition relative group">
+                Contact
+            </a>
           </nav>
 
           {/* Auth & Button */}

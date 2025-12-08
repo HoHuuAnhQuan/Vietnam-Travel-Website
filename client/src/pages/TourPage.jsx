@@ -31,7 +31,17 @@ const TourPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 1. KIỂM TRA ĐĂNG NHẬP
+    // --- 1. VALIDATE SỐ ĐIỆN THOẠI  ---
+    // Quy tắc: Bắt đầu bằng số 0, theo sau là 9 chữ số (Tổng 10 số)
+    const phoneRegex = /^0\d{9}$/; 
+    
+    if (!phoneRegex.test(formData.phone)) {
+      toast.error("❌ Invalid phone number! Please enter the correct 10 digits (e.g.: 0905...)");
+      return; // Dừng lại, không gửi đi
+    }
+
+
+    // 2. KIỂM TRA ĐĂNG NHẬP 
     const userStorage = localStorage.getItem('user');
     if (!userStorage) {
       if(window.confirm("You need to log in to book a tour. Go to the login page now?")) {
@@ -41,25 +51,36 @@ const TourPage = () => {
     }
 
     const user = JSON.parse(userStorage);
-
-    // 2. GỬI DỮ LIỆU VỀ BACKEND
     const bookingData = {
       user_id: user.user_id,
       tour_id: tour.tour_id,
       start_date: formData.date,
       num_people: formData.guests,
-      total_price: tour.price * formData.guests 
+      total_price: tour.price * formData.guests,
+      // Thêm thông tin phụ để hiển thị bên trang thanh toán
+      fullName: formData.fullName, 
+      phone: formData.phone
     };
 
+    // 3. GỌI API TẠO ĐƠN HÀNG (TRẠNG THÁI PENDING)
     try {
       await axios.post('http://localhost:5000/api/bookings', bookingData);
-      toast.success("🎉 Tour booked successfully! Our staff will contact you soon.");
-      navigate('/'); 
+      
+      // 2. CHUYỂN SANG TRANG THANH TOÁN (Mang theo dữ liệu)
+      navigate('/payment', { 
+          state: { 
+              bookingData: bookingData,
+              tourInfo: tour 
+          } 
+      });
+
     } catch (err) {
       console.error(err);
-      toast.error("Error booking the tour. Please try again.");
+      toast.error("Error creating order.");
     }
   };
+  
+
 
   // --- XỬ LÝ GIAO DIỆN KHI TẢI HOẶC LỖI ---
   if (loading) return <div className="min-h-screen flex justify-center items-center text-red-600 font-bold">Loading...</div>;
@@ -138,7 +159,19 @@ const TourPage = () => {
                 <label className="text-xs font-bold text-gray-500 uppercase">Phone Number</label>
                 <div className="flex items-center border border-gray-200 rounded-lg px-3 py-2 mt-1 focus-within:border-red-500 bg-gray-50">
                   <Phone className="w-5 h-5 text-gray-400 mr-2" />
-                  <input required type="tel" className="w-full bg-transparent outline-none text-sm" placeholder="0905..." 
+                  <input 
+                    required 
+                    type="text" 
+                    maxLength={10} // Giới hạn chỉ được nhập tối đa 10 ký tự
+                    pattern="[0-9]*" // Gợi ý bàn phím số trên điện thoại
+                    className="w-full bg-transparent outline-none text-sm" 
+                    placeholder="0905..." 
+                    // Chỉ cho phép nhập số 
+                    onKeyPress={(e) => {
+                      if (!/[0-9]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
                     onChange={e => setFormData({...formData, phone: e.target.value})}
                   />
                 </div>

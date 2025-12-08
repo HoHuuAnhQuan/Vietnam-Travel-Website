@@ -104,7 +104,7 @@ const AdminPage = () => {
                             : 'bg-white text-gray-600 hover:bg-gray-50 border-gray-200'
                         }`}
                     >
-                        <ShoppingBag size={20}/> Quản lý Đơn hàng
+                        <ShoppingBag size={20}/> Order Management
                     </button>
                     <button 
                         onClick={() => setActiveTab('tours')}
@@ -114,7 +114,7 @@ const AdminPage = () => {
                             : 'bg-white text-gray-600 hover:bg-gray-50 border-gray-200'
                         }`}
                     >
-                        <Map size={20}/> Quản lý Tour
+                        <Map size={20}/> Tour Management
                     </button>
                 </div>
 
@@ -124,19 +124,19 @@ const AdminPage = () => {
                         /* === TAB BOOKINGS (Code cũ của bạn nằm ở đây) === */
                         <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 animate-fade-in">
                             <div className="p-4 border-b border-gray-100 bg-gray-50 font-bold text-gray-700">
-                                Danh sách đơn hàng gần đây
+                                Recent order list
                             </div>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse min-w-[800px]">
                                     <thead className="bg-white text-gray-600 uppercase text-xs font-bold border-b border-gray-200">
                                         <tr>
-                                            <th className="p-4">Mã đơn</th>
-                                            <th className="p-4">Khách hàng</th>
+                                            <th className="p-4">Order Code</th>
+                                            <th className="p-4">Customer</th>
                                             <th className="p-4">Tour</th>
-                                            <th className="p-4">Ngày đi</th>
-                                            <th className="p-4">Tổng tiền</th>
-                                            <th className="p-4 text-center">Trạng thái</th>
-                                            <th className="p-4 text-center">Hành động</th>
+                                            <th className="p-4">Departure Date</th>
+                                            <th className="p-4">Total Amount</th>
+                                            <th className="p-4 text-center">Status</th>
+                                            <th className="p-4 text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-sm text-gray-700">
@@ -154,29 +154,29 @@ const AdminPage = () => {
                                                     <div className="text-xs font-normal text-gray-400">({item.num_people} khách)</div>
                                                 </td>
                                                 <td className="p-4 text-center">
-                                                    {item.status === 'pending' && <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs font-bold flex items-center justify-center gap-1 w-max mx-auto"><Clock size={12}/> Chờ duyệt</span>}
-                                                    {item.status === 'confirmed' && <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold flex items-center justify-center gap-1 w-max mx-auto"><CheckCircle size={12}/> Đã duyệt</span>}
-                                                    {item.status === 'cancelled' && <span className="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-bold flex items-center justify-center gap-1 w-max mx-auto"><XCircle size={12}/> Đã hủy</span>}
+                                                    {item.status === 'pending' && <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs font-bold flex items-center justify-center gap-1 w-max mx-auto"><Clock size={12}/> Pending approval</span>}
+                                                    {item.status === 'confirmed' && <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold flex items-center justify-center gap-1 w-max mx-auto"><CheckCircle size={12}/> Approved</span>}
+                                                    {item.status === 'cancelled' && <span className="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-bold flex items-center justify-center gap-1 w-max mx-auto"><XCircle size={12}/> Canceled</span>}
                                                 </td>
                                                 <td className="p-4 flex justify-center gap-2">
                                                     {item.status === 'pending' && (
                                                         <>
-                                                            <button onClick={() => handleStatusUpdate(item.booking_id, 'confirmed')} className="bg-green-100 text-green-700 p-2 rounded-lg hover:bg-green-600 hover:text-white transition" title="Duyệt đơn">
+                                                            <button onClick={() => handleStatusUpdate(item.booking_id, 'confirmed')} className="bg-green-100 text-green-700 p-2 rounded-lg hover:bg-green-600 hover:text-white transition" title="Approve order">
                                                                 <CheckCircle size={18} />
                                                             </button>
-                                                            <button onClick={() => handleStatusUpdate(item.booking_id, 'cancelled')} className="bg-red-100 text-red-700 p-2 rounded-lg hover:bg-red-600 hover:text-white transition" title="Hủy đơn">
+                                                            <button onClick={() => handleStatusUpdate(item.booking_id, 'cancelled')} className="bg-red-100 text-red-700 p-2 rounded-lg hover:bg-red-600 hover:text-white transition" title="Cancel order">
                                                                 <XCircle size={18} />
                                                             </button>
                                                         </>
                                                     )}
-                                                    {item.status !== 'pending' && <span className="text-gray-400 text-xs italic bg-gray-100 px-2 py-1 rounded">Đã xử lý</span>}
+                                                    {item.status !== 'pending' && <span className="text-gray-400 text-xs italic bg-gray-100 px-2 py-1 rounded">Processed</span>}
                                                 </td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
                             </div>
-                            {bookings.length === 0 && <div className="p-10 text-center text-gray-400 italic">Chưa có đơn hàng nào.</div>}
+                            {bookings.length === 0 && <div className="p-10 text-center text-gray-400 italic">No orders yet.</div>}
                         </div>
                     ) : (
                         /* === TAB QUẢN LÝ TOUR (HIỂN THỊ COMPONENT ADMINTOURS) === */

@@ -5,7 +5,7 @@ import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false); // Trạng thái mở/đóng
   const [messages, setMessages] = useState([
-    { text: "Xin chào! Tôi là VinaBot 🤖. Bạn cần tư vấn du lịch đi đâu hôm nay?", sender: "bot" }
+    { text: "Hello! I am VinaBot 🤖. Where would you like travel advice for today?", sender: "bot" }
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ const ChatBot = () => {
       const botMessage = { text: res.data.reply, sender: "bot" };
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
-      setMessages((prev) => [...prev, { text: "Kết nối bị lỗi, vui lòng thử lại!", sender: "bot" }]);
+      setMessages((prev) => [...prev, { text: "Connection failed, please try again!", sender: "bot" }]);
     } finally {
       setLoading(false);
     }
@@ -54,7 +54,7 @@ const ChatBot = () => {
                 <Bot size={20} />
               </div>
               <div>
-                <h3 className="font-bold text-sm">Trợ lý du lịch AI</h3>
+                <h3 className="font-bold text-sm">AI Travel Assistant</h3>
                 <span className="text-xs text-yellow-200 flex items-center gap-1">
                   <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> Online
                 </span>
@@ -92,7 +92,7 @@ const ChatBot = () => {
           <form onSubmit={handleSend} className="p-3 bg-white border-t border-gray-100 flex gap-2">
             <input 
               type="text" 
-              placeholder="Hỏi gì đó về du lịch..." 
+              placeholder="Ask something about travel..." 
               className="flex-1 bg-gray-100 border-0 rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -114,7 +114,7 @@ const ChatBot = () => {
         {/* Tooltip nhắc nhở */}
         {!isOpen && (
           <span className="absolute right-full mr-4 bg-white text-gray-800 text-xs font-bold py-2 px-3 rounded-lg shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition duration-300">
-            Hỏi tôi về du lịch VN! 🤖
+            Ask me about traveling in Vietnam! 🤖
           </span>
         )}
       </button>

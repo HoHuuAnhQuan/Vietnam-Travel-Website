@@ -56,7 +56,7 @@ const RegisterPage = () => {
           </div>
 
           <button type="submit" className="w-full bg-red-700 text-yellow-50 font-bold py-3.5 rounded-xl hover:bg-red-800 transition shadow-lg">
-            ĐĂNG KÝ
+            Register
           </button>
         </form>
 

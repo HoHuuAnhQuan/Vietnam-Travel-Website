@@ -15,18 +15,18 @@ const VerifyPage = () => {
     e.preventDefault();
     try {
       await axios.post('http://localhost:5000/api/auth/verify', { email, otp });
-      toast.success("✅ Xác thực thành công! Vui lòng đăng nhập.");
+      toast.success("✅ Authentication successful! Please log in.");
       navigate('/login');
     } catch (err) {
-      toast.error(err.response?.data?.message || "Mã OTP sai!");
+      toast.error(err.response?.data?.message || "Incorrect OTP code!");
     }
   };
 
   return (
     <div className="min-h-screen bg-cream flex items-center justify-center">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-red-100 text-center">
-        <h2 className="text-2xl font-bold text-red-800 mb-4">Xác thực Email</h2>
-        <p className="text-gray-600 mb-6">Mã OTP 6 số đã được gửi đến: <br/> <b>{email}</b></p>
+        <h2 className="text-2xl font-bold text-red-800 mb-4">Email Verification</h2>
+        <p className="text-gray-600 mb-6">The 6-digit OTP has been sent: <br/> <b>{email}</b></p>
         
         <form onSubmit={handleVerify}>
           <input 
@@ -38,7 +38,7 @@ const VerifyPage = () => {
             onChange={(e) => setOtp(e.target.value)}
           />
           <button type="submit" className="w-full bg-red-600 text-white font-bold py-3 rounded-lg hover:bg-red-700 transition">
-            XÁC NHẬN
+            CONFIRM
           </button>
         </form>
       </div>

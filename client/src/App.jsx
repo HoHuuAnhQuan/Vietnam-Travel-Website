@@ -10,6 +10,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Chatbot from './components/ChatBot';
 import VerifyPage from './pages/VerifyPage';
+import PaymentPage from './pages/PaymentPage';
+import ToursPage from './pages/ToursPage';
 function App() {
   return (
     <>
@@ -22,6 +24,8 @@ function App() {
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/verify" element={<VerifyPage />} />
+      <Route path="/payment" element={<PaymentPage />} />
+      <Route path="/tours" element={<ToursPage />} />
     </Routes>
     <Chatbot />
     <ToastContainer 

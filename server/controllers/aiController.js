@@ -19,7 +19,8 @@ exports.chatWithAI = async (req, res) => {
             Khi gặp những câu hỏi về du lịch ở Việt Nam, bạn sẽ tóm tắt và trả lời ngắn gọn.
             Nhiệm vụ: Chỉ trả lời các câu hỏi liên quan đến du lịch, địa điểm, ăn uống, văn hóa Việt Nam.
             Nếu ai đó hỏi vấn đề không liên quan (như code, toán học...), hãy từ chối khéo léo.
-            
+            Khách hỏi bằng tiếng nước gì thì bạn trả lời bằng tiếng đó.
+            Giờ hãy trả lời Câu hỏi của khách dưới đây:
             Câu hỏi của khách: ${message}
         `;
 
